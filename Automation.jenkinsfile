@@ -9,7 +9,7 @@ pipeline {
             }
 			stage('Run jar file') {
             steps {
-                bat 'java -jar target\AutomationProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
+                bat 'java -jar target/AutomationProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
             }
             }
 		
