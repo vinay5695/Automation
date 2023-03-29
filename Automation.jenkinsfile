@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Jar Creation') {
+            steps {
+                bat 'mvn clean package assembly:single -Dmaven.test.skip=true'
+            }
+            }
+			stage('Run jar file') {
+            steps {
+                bat 'java -jar target\AutomationProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar'
+            }
+            }
+		
+    }
+            post {
+        always {
+            //to send mail to recipient
+            cucumber buildStatus: 'null', customCssFiles: '', customJsFiles: '', failedFeaturesNumber: -1, failedScenariosNumber: -1, failedStepsNumber: -1, fileIncludePattern: '**/*.json', pendingStepsNumber: -1, skippedStepsNumber: -1, sortingMethod: 'ALPHABETICAL', undefinedStepsNumber: -1
+            //publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'target/cucumber-report-html/cucumber-html-reports/', reportFiles: 'feature-overview.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+            emailext body: 'Test Reports shared through jenkins', subject: 'Test Report', to: 'vinayagamaruthiswamy@gmail.com'
+        }
+        }    
+    
+}
